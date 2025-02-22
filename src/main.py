@@ -23,7 +23,7 @@ def extract_emails_from_url(url):
         return set()
 
 # Example Usage
-url = "https://www.slicktext.com/blog/"  # Replace with a public webpage
+url = "https://www.iana.org/domains/reserved"
 emails = extract_emails_from_url(url)
 
 if emails:
