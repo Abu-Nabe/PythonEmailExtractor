@@ -2,7 +2,13 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
+from utils import get_email_urls
+
+# Get list of URLs from .env
+email_urls = get_email_urls()
+
 def extract_emails_from_url(url):
+    """Fetch emails from a given URL using regex."""
     try:
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
@@ -19,14 +25,20 @@ def extract_emails_from_url(url):
 
         return emails
     except Exception as e:
-        print(f"Error fetching {url}: {e}")
+        print(f"❌ Error fetching {url}: {e}")
         return set()
 
-# Example Usage
-url = "https://www.iana.org/domains/reserved"
-emails = extract_emails_from_url(url)
+# Extract emails from each URL in the list
+all_emails = {}
 
-if emails:
-    print("Extracted Emails:", emails)
-else:
-    print("No emails found.")
+for url in email_urls:
+    extracted = extract_emails_from_url(url)
+    all_emails[url] = list(extracted)  # Convert set to list
+
+# Print Results
+for url, emails in all_emails.items():
+    print(f"\n🔗 URL: {url}")
+    if emails:
+        print("📩 Extracted Emails:", emails)
+    else:
+        print("⚠️ No emails found.")
