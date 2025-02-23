@@ -1,3 +1,6 @@
+print("🚀 Script started!")
+
+
 import re
 import requests
 from bs4 import BeautifulSoup
@@ -10,16 +13,16 @@ email_urls = get_email_urls()
 def extract_emails_from_url(url):
     """Fetch emails from a given URL using regex."""
     try:
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-        }
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
         response = requests.get(url, headers=headers)
+        
+        print(f"Fetching {url} - Status Code: {response.status_code}")  # Debugging
+
         response.raise_for_status()
 
         soup = BeautifulSoup(response.text, "html.parser")
         text = soup.get_text()
 
-        # Regex to find emails
         email_pattern = r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
         emails = set(re.findall(email_pattern, text))
 
